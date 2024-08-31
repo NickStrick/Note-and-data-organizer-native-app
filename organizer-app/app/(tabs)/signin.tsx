@@ -1,5 +1,5 @@
 // components/SignInScreen.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -7,6 +7,17 @@ const SignInScreen: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigation = useNavigation<any>();
+    // hide navigation on sign in screen
+  useEffect(() => {
+    navigation.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none"
+      }
+    });
+    return () => navigation.getParent()?.setOptions({
+      tabBarStyle: undefined
+    });
+  }, [navigation]);
 
   const handleSignIn = () => {
     if (username === '' || password === '') {
